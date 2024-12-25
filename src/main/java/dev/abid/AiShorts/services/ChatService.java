@@ -3,6 +3,7 @@ package dev.abid.AiShorts.services;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.json.JSONObject;
 
 import java.util.*;
 
@@ -38,39 +39,53 @@ public class ChatService {
         try {
             // Make the API call
             ResponseEntity<String> response = restTemplate.exchange(geminiEndpoint, HttpMethod.POST, entity, String.class);
-            return generateSixtySentenceSummary(response.getBody());
+            return extractTextFromResponse(response.getBody());
         } catch (Exception e) {
             return "Error connecting to Gemini API: " + e.getMessage();
         }
     }
 
-    private String generateSixtySentenceSummary(String text) {
-        if (text == null || text.isEmpty()) {
+    private String extractTextFromResponse(String responseBody) {
+        if (responseBody == null || responseBody.isEmpty()) {
             return "No response received from the Gemini API.";
         }
 
-        // Split the text into sentences
-        String[] sentences = text.split("\\.\\s+");
+        // Parse the response into a JSON object
+        JSONObject jsonResponse = new JSONObject(responseBody);
 
-        // Create a StringBuilder to build the summary
-        StringBuilder summary = new StringBuilder();
-        int sentenceCount = 0;
+        // Extract the text content from the JSON structure
+        try {
+            String text = jsonResponse
+                    .getJSONArray("candidates")
+                    .getJSONObject(0)
+                    .getJSONObject("content")
+                    .getJSONArray("parts")
+                    .getJSONObject(0)
+                    .getString("text");
 
-        // Loop through sentences and add them to the summary
-        for (String sentence : sentences) {
-            if (sentenceCount >= 60) {
-                break; // Stop once we have 60 sentences
+            // Limit the text to 60 words
+            return limitToSixtyWords(text);
+        } catch (Exception e) {
+            return "Error parsing the response from Gemini API: " + e.getMessage();
+        }
+    }
+
+    // Helper method to limit text to 60 words
+    private String limitToSixtyWords(String text) {
+        // Split the text into words
+        String[] words = text.split("\\s+");
+
+        // If there are more than 60 words, limit the text to 60 words
+        if (words.length > 60) {
+            StringBuilder limitedText = new StringBuilder();
+            for (int i = 0; i < 60; i++) {
+                limitedText.append(words[i]).append(" ");
             }
-            summary.append(sentence).append(". ");
-            sentenceCount++;
+            // Trim and return the result
+            return limitedText.toString().trim() + ".";
         }
 
-        // Trim and ensure the result ends with a period
-        String result = summary.toString().trim();
-        if (!result.endsWith(".")) {
-            result += ".";
-        }
-
-        return result;
+        // If the text is less than or equal to 60 words, return it as is
+        return text.trim() + ".";
     }
 }
