@@ -1,24 +1,19 @@
-//Package Declaration
 package dev.abid.aishorts_backend.controllers;
 
-//Imports
 import dev.abid.aishorts_backend.services.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
-//Annotations
 @RestController
 @RequestMapping("/aishorts")
 public class ChatController {
 
-    // Dependencies
     private final ChatService chatService;
     private final SimpMessagingTemplate messagingTemplate;
 
     @Autowired
-    //Constructor
     public ChatController(ChatService chatService, SimpMessagingTemplate messagingTemplate) {
         this.chatService = chatService;
         this.messagingTemplate = messagingTemplate;
@@ -31,9 +26,11 @@ public class ChatController {
     }
 
     // WebSocket endpoint for real-time communication
-    @MessageMapping("/chat")
-    public void handleChatMessage(String userMessage) {
+    @MessageMapping("/sendMessage")
+    public void handleMessage(String userMessage) {
         String response = chatService.sendMessageToGemini(userMessage);
-        messagingTemplate.convertAndSend("/topic/messages", response);
+        // Wrap response in JSON structure
+        String jsonResponse = String.format("{\"candidates\":[{\"content\":{\"parts\":[{\"text\":\"%s\"}]}}]", response);
+        messagingTemplate.convertAndSend("/topic/messages", jsonResponse);
     }
 }
