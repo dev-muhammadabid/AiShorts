@@ -9,12 +9,11 @@ function classNames(...classes) {
 
 function Navbar() {
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-gray-950">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 items-center justify-between">
-              
               {/* Mobile Menu Button */}
               <div className="sm:hidden flex items-center">
                 <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
@@ -35,13 +34,14 @@ function Navbar() {
                     src="/images/aishorts-logo.png"
                     alt="AiShorts Logo"
                   />
-                  <span className="text-white text-lg font-semibold">AiShorts</span>
+                  <span className="text-white text-lg font-semibold">
+                    AiShorts
+                  </span>
                 </div>
               </div>
 
               {/* Empty div to balance flexbox layout (ensures center alignment) */}
               <div className="hidden sm:block w-10"></div>
-
             </div>
           </div>
 

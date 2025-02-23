@@ -1,14 +1,14 @@
 /* Scrolling */
 html {
-    scroll-behavior: smooth;
-  }
-  
-  /* Default */
-  * {
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
-    font-family: "Michroma", sans-serif;
-    text-decoration: none;
-    list-style: none;
-  }
+  scroll-behavior: smooth;
+}
+
+/* Default */
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: "Michroma", sans-serif;
+  text-decoration: none;
+  list-style: none;
+}
