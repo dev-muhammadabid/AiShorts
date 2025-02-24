@@ -1,11 +1,11 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import tailwindcss from 'tailwindcss';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "tailwindcss";
 
 export default defineConfig({
   plugins: [react()],
   define: {
-    global: 'window'
+    global: "window",
   },
   css: {
     postcss: {
@@ -14,7 +14,7 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: ['@headlessui/react', '@heroicons/react'],
+      external: ["@headlessui/react", "@heroicons/react"],
     },
   },
 });

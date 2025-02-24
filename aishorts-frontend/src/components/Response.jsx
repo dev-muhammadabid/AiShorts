@@ -11,10 +11,10 @@ const responseVariants = {
 // NoResponse component for empty states
 const NoResponse = () => (
   <div className="relative flex items-center justify-center min-h-[60vh] bg-gray-900 p-6">
-    <div className="w-full max-w-3xl space-y-6">
-      <Typography className="text-gray-300 text-center">
-        No answers found. Please try again.
-      </Typography>
+    <div className="flex items-center justify-center ">
+      <span className="text-6xl font-bold bg-gradient-to-r from-blue-400 to-pink-400 bg-clip-text text-transparent">
+        AiShorts
+      </span>
     </div>
   </div>
 );

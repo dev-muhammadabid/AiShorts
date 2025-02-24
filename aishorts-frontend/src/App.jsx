@@ -10,17 +10,21 @@ import Prompt from "./components/Prompt";
 function App() {
   return (
     <>
-    <Routes>
-      <Route path="/" element={
-        <>
-        <Navbar />
-        <Intro1 /> 
-        <Intro2 />
-        <Intro3 />
-        <Footer />
-        </>} />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Navbar />
+              <Intro1 />
+              <Intro2 />
+              <Intro3 />
+              <Footer />
+            </>
+          }
+        />
         <Route path="/prompt" element={<Prompt />} />
-    </Routes>
+      </Routes>
     </>
   );
 }
