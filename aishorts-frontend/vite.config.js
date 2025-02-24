@@ -4,6 +4,9 @@ import tailwindcss from 'tailwindcss';
 
 export default defineConfig({
   plugins: [react()],
+  define: {
+    global: 'window'
+  },
   css: {
     postcss: {
       plugins: [tailwindcss()],
