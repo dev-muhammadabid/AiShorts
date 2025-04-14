@@ -17,4 +17,13 @@ export default defineConfig({
       external: ["@headlessui/react", "@heroicons/react"],
     },
   },
+  server: {
+    proxy: {
+      '/otp': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 });

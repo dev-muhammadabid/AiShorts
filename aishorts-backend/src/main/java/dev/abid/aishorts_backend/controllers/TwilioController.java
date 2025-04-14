@@ -7,6 +7,7 @@ import dev.abid.aishorts_backend.entities.OtpValidationRequest;
 import dev.abid.aishorts_backend.services.TwilioService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,9 +30,15 @@ public class TwilioController {
     }
 
     @PostMapping("/validate-otp")
-    public String validateOtp(@RequestBody OtpValidationRequest otpValidationRequest){
-        log.info("inside validateOtp ::" + otpValidationRequest.getUsername() + " " + otpValidationRequest);
-        return twilioService.validateOtp(otpValidationRequest);
+    public ResponseEntity<String> validateOtp(@RequestBody OtpValidationRequest request) {
+        try {
+            String result = twilioService.validateOtp(request);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            // Log the full exception for debugging:
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Internal server error");
+        }
     }
 
 }

@@ -15,4 +15,5 @@ public class TwilioConfig {
     private String authToken;
     private String phoneNumber;
     private String messagingServiceSid;
+    private String serviceSid;
 }
