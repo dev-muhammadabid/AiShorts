@@ -4,13 +4,12 @@ import SockJS from "sockjs-client";
 import LoadingIndicator from "./LoadingIndicator";
 import ErrorMessage from "./ErrorMessage";
 import UserPrompt from "./UserPrompt";
+import ChatBubble from "./ChatBubble";
 import Response from "./Response";
 
-// Custom hook for WebSocket connection
+// Custom hook for WebSocket
 const useWebSocket = (url, onMessage, onError) => {
   const clientRef = useRef(null);
-  const retryCount = useRef(0);
-  const maxRetries = 5;
 
   const connect = useCallback(() => {
     const socket = new SockJS(url);
@@ -19,39 +18,24 @@ const useWebSocket = (url, onMessage, onError) => {
       reconnectDelay: 5000,
       heartbeatIncoming: 4000,
       heartbeatOutgoing: 4000,
-      debug: (str) => console.log(str), // Add debug logs
+      debug: (str) => console.log(str),
     });
 
     client.onConnect = () => {
-      retryCount.current = 0;
       console.log("WebSocket connected");
       client.subscribe("/topic/messages", (message) => {
-        onMessage(JSON.parse(message.body));
+      try {
+  const parsed = JSON.parse(message.body);
+  onMessage(parsed);
+} catch {
+  onMessage({ text: message.body }); // fallback if it's plain text
+}
       });
     };
 
     client.onStompError = (frame) => {
       console.error("WebSocket error:", frame);
-      onError(
-        `Connection error${
-          retryCount.current > 0
-            ? ` (Retry ${retryCount.current}/${maxRetries})`
-            : ""
-        }`
-      );
-      if (retryCount.current < maxRetries) {
-        retryCount.current++;
-        setTimeout(
-          () => client.activate(),
-          Math.min(5000 * retryCount.current, 30000)
-        );
-      } else {
-        console.error("Max retries reached. Giving up.");
-      }
-    };
-
-    client.onDisconnect = () => {
-      console.log("WebSocket disconnected");
+      onError("WebSocket error");
     };
 
     client.activate();
@@ -64,7 +48,6 @@ const useWebSocket = (url, onMessage, onError) => {
       if (clientRef.current) {
         clientRef.current.deactivate();
         clientRef.current = null;
-        console.log("WebSocket connection cleaned up");
       }
     };
   }, [connect]);
@@ -73,13 +56,13 @@ const useWebSocket = (url, onMessage, onError) => {
 };
 
 function Prompt() {
-  const [response, setResponse] = useState(null);
+  const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const handleMessage = useCallback((data) => {
     console.log("Received message:", data);
-    setResponse(data);
+    setMessages((prev) => [...prev, { text: data.text, isUser: false }]);
     setLoading(false);
   }, []);
 
@@ -95,40 +78,41 @@ function Prompt() {
     handleError
   );
 
-  const handleInputSubmit = useCallback(
-    async (userMessage) => {
-      setLoading(true);
-      setResponse(null);
-      setError(null);
+  const handleInputSubmit = async (userMessage) => {
+    setLoading(true);
+    setError(null);
+    setMessages((prev) => [...prev, { text: userMessage, isUser: true }]);
 
-      try {
-        if (clientRef.current?.connected) {
-          console.log("Sending message:", userMessage);
-          clientRef.current.publish({
-            destination: "/app/sendMessage",
-            body: JSON.stringify({ text: userMessage }),
-          });
-        } else {
-          throw new Error("Connection not ready. Please wait and try again.");
-        }
-      } catch (err) {
-        console.error("Failed to send message:", err);
-        setError(err.message);
-        setLoading(false);
+    try {
+      if (clientRef.current?.connected) {
+        clientRef.current.publish({
+          destination: "/app/sendMessage",
+          body: JSON.stringify({ text: userMessage }),
+        });
+      } else {
+        throw new Error("Connection not ready.");
       }
-    },
-    [clientRef]
-  );
+    } catch (err) {
+      console.error("Failed to send message:", err);
+      setError(err.message);
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-900">
-      <main className="flex-1 overflow-y-auto p-4">
-        {error && <ErrorMessage message={error} />}
-        <Response response={response} />
+    <>
+    <div className="flex flex-col h-screen bg-gray-900 text-white">
+      <main className="flex-1 overflow-y-auto p-4 space-y-2">
+        {messages.map((msg, idx) => (
+          <ChatBubble key={idx} message={msg.text} isUser={msg.isUser} />
+        ))}
+        <Response response={Response} />
         {loading && <LoadingIndicator />}
+        {error && <ErrorMessage message={error} />}
       </main>
       <UserPrompt onSubmit={handleInputSubmit} loading={loading} />
     </div>
+    </>
   );
 }
 
