@@ -1,3 +1,8 @@
+// ChatBubble component displays a message bubble.
+// Props:
+// - message: The text message to display.
+// - isUser: Boolean indicating if the message is from the user (true) or from AI/other (false).
+
 // eslint-disable-next-line react/prop-types
 export default function ChatBubble({ message, isUser }) {
   return (
@@ -7,6 +12,7 @@ export default function ChatBubble({ message, isUser }) {
           isUser ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-900'
         }`}
       >
+        {/* Display message with preserved whitespace and word breaks */}
         <p className="whitespace-pre-line break-words">{message}</p>
       </div>
     </div>

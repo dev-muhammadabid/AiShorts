@@ -1,3 +1,4 @@
+// Imports
 import PropTypes from "prop-types";
 
 const ErrorMessage = ({ message }) => {

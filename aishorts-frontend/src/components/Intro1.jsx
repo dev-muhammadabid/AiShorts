@@ -1,15 +1,18 @@
+// Imports
 import { useState } from "react";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
-import TwilioMain from "./TwilioMain"; // Import your TwilioMain component
+import { Link } from "react-router-dom"; // For client-side navigation without page reloads
+import TwilioMain from "./twilio/TwilioMain"; // TwilioMain component for login/authentication modal content
 
 const Intro1 = () => {
+  // State to toggle modal visibility
   const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="bg-gray-950">
       <div className="mx-auto max-w-7xl py-16 px-6 sm:py-24 lg:py-32 lg:px-8">
         <div className="relative isolate overflow-hidden bg-gray-900 px-6 py-12 shadow-2xl sm:rounded-3xl sm:px-12 md:py-16 lg:flex lg:items-center lg:gap-x-16 lg:px-20 lg:py-20">
-          {/* Background SVG remains the same */}
+
+          {/* Background SVG Circle with Gradient */}
           <svg
             viewBox="0 0 1024 1024"
             aria-hidden="true"
@@ -24,7 +27,7 @@ const Intro1 = () => {
             </defs>
           </svg>
 
-          {/* Text Section */}
+          {/* Text Section with Heading, Description, and Get Started Button */}
           <div className="mx-auto max-w-md text-center lg:mx-0 lg:flex-auto lg:text-left">
             <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
               AiShorts delivers precise, AI-generated answers in 60 words.
@@ -35,6 +38,7 @@ const Intro1 = () => {
               time and enhance clarity.
             </p>
             <div className="mt-8 flex justify-center lg:justify-start">
+              {/* Button toggles modal visibility */}
               <button
                 onClick={() => setShowModal(true)}
                 className="rounded-md bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white"
@@ -44,7 +48,7 @@ const Intro1 = () => {
             </div>
           </div>
 
-          {/* Image Section */}
+          {/* Image Section showing app screenshot */}
           <div className="relative mt-12 h-64 lg:mt-0 lg:h-80">
             <img
               alt="App screenshot"
@@ -54,20 +58,20 @@ const Intro1 = () => {
           </div>
         </div>
 
-        {/* Modal Overlay */}
+        {/* Modal Overlay - shown when showModal is true */}
         {showModal && (
           <div 
             className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md z-50 flex items-center justify-center"
-            onClick={() => setShowModal(false)}
+            onClick={() => setShowModal(false)} // Close modal on clicking outside content
           >
             <div 
               className="bg-gray-700 rounded-lg p-8 max-w-md w-full mx-4 relative"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()} // Prevent modal close when clicking inside modal content
             >
               {/* Close Button */}
               <button
                 className="absolute top-4 right-4 bg-gray-700 text-grey-300 hover:text-green-600"
-                onClick={() => setShowModal(false)}
+                onClick={() => setShowModal(false)} // Close modal when clicking X
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -85,14 +89,13 @@ const Intro1 = () => {
                 </svg>
               </button>
 
-              {/* Login Content */}
+              {/* Modal content: TwilioMain component (for login/authentication) */}
               <TwilioMain />
 
-              {/* Start Without Login */}
+              {/* Link to start using the app without login */}
               <div className="mt-4 text-center">
                 <Link
                   to="/prompt"
-                  // onClick={() => setShowModal(false)}
                   className="text-white font-medium hover:text-green-600"
                 >
                   Start without login

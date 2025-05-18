@@ -1,24 +1,27 @@
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import PropTypes from "prop-types";
+// Imports
+import { motion } from "framer-motion"; // Animation library for React
+import { useInView } from "react-intersection-observer"; // Detect when elements enter viewport
+import PropTypes from "prop-types"; // Runtime type checking for React props
 
+// Small reusable pill-shaped feature tag with animation
 const FeaturePill = ({ text }) => {
+  // Ref and boolean to check if the pill is visible on screen (once)
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 20 }} // Start hidden and slightly down
       animate={
         inView
           ? {
               opacity: 1,
               y: 0,
-              transition: { type: "spring", stiffness: 100 },
+              transition: { type: "spring", stiffness: 100 }, // Spring animation into place
             }
           : {}
       }
-      whileHover={{ scale: 1.05 }}
+      whileHover={{ scale: 1.05 }} // Slight scale-up on hover
       className="mr-2 mb-2 inline-block rounded-full bg-gradient-to-r from-purple-600 to-pink-500 px-4 py-1 text-xs font-medium text-white shadow-lg sm:px-6 sm:py-2 sm:text-sm"
     >
       {text}
@@ -27,9 +30,10 @@ const FeaturePill = ({ text }) => {
 };
 
 FeaturePill.propTypes = {
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired, // text prop is required string
 };
 
+// Animated SVG background with floating dots effect
 const AnimatedBackground = () => (
   <motion.div
     initial={{ opacity: 0 }}
@@ -37,25 +41,15 @@ const AnimatedBackground = () => (
     transition={{ duration: 1.5 }}
     className="absolute inset-0 -z-10"
   >
+    {/* Large radial gradient circle with animated focal point */}
     <svg
       viewBox="0 0 1024 1024"
       className="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-y-1/2 [mask-image:radial-gradient(closest-side,white,transparent)] sm:left-full sm:-ml-80 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2"
     >
-      <circle
-        cx="512"
-        cy="512"
-        r="512"
-        fill="url(#gradient)"
-        fillOpacity="0.7"
-      />
+      <circle cx="512" cy="512" r="512" fill="url(#gradient)" fillOpacity="0.7" />
       <defs>
         <radialGradient id="gradient">
-          <animate
-            attributeName="fx"
-            values="0%; 50%; 0%"
-            dur="15s"
-            repeatCount="indefinite"
-          />
+          <animate attributeName="fx" values="0%; 50%; 0%" dur="15s" repeatCount="indefinite" />
           <stop stopColor="#4F46E5" />
           <stop offset="0.5" stopColor="#9333EA" />
           <stop offset="1" stopColor="#EC4899" />
@@ -63,11 +57,8 @@ const AnimatedBackground = () => (
       </defs>
     </svg>
 
-    <motion.div
-      className="absolute inset-0 animate-float"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
+    {/* Floating dots with pulsating scale animations scattered randomly */}
+    <motion.div className="absolute inset-0 animate-float" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       {[...Array(20)].map((_, i) => (
         <motion.div
           key={i}
@@ -95,6 +86,7 @@ const AnimatedBackground = () => (
 function Intro2() {
   return (
     <div className="relative overflow-hidden bg-gray-950 py-24 sm:py-24">
+      {/* Animated Background */}
       <AnimatedBackground />
 
       <motion.div
@@ -102,33 +94,26 @@ function Intro2() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
+        {/* Main content container with scale-in animation */}
         <motion.div
           className="relative isolate overflow-hidden px-8 py-16 backdrop-blur-xl sm:px-16 md:py-24 lg:flex lg:items-center lg:gap-x-20 lg:px-24"
           initial={{ scale: 0.95 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 100 }}
         >
+          {/* Text Section */}
           <div className="mx-auto max-w-3xl text-center lg:mx-0 lg:flex-auto lg:text-left">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.8,
-                delay: 0.2,
-                type: "spring",
-              }}
+              transition={{ duration: 0.8, delay: 0.2, type: "spring" }}
               className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl"
             >
               Revolutionize Information with
               <motion.span
                 className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
-                animate={{
-                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-                }}
-                transition={{
-                  duration: 6,
-                  repeat: Infinity,
-                }}
+                animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+                transition={{ duration: 6, repeat: Infinity }}
               >
                 {" "}
                 Gemini AI-Powered Precision
@@ -138,11 +123,7 @@ function Intro2() {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{
-                delay: 0.5,
-                duration: 1,
-                staggerChildren: 0.1,
-              }}
+              transition={{ delay: 0.5, duration: 1, staggerChildren: 0.1 }}
               className="mt-6 text-lg leading-8 text-gray-300"
             >
               Harness the power of Gemini AI for lightning-fast, precise
@@ -151,6 +132,7 @@ function Intro2() {
               seconds
             </motion.p>
 
+            {/* Feature pills with staggered fade-in */}
             <motion.div
               className="mt-10 flex flex-wrap justify-center lg:justify-start"
               initial={{ opacity: 0 }}
@@ -163,6 +145,7 @@ function Intro2() {
             </motion.div>
           </div>
 
+          {/* Image Section with hover scale and rotation effect */}
           <motion.div
             className="relative mt-16 lg:mt-0"
             initial={{ opacity: 0, scale: 0.8 }}
@@ -177,6 +160,7 @@ function Intro2() {
                 transition: { type: "spring" },
               }}
             >
+              {/* Glowing blurred background ring */}
               <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-500 opacity-20 blur-xl" />
               <motion.img
                 alt="AI Interface Preview"
