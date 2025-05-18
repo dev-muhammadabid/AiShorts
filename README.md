@@ -115,20 +115,15 @@ STOMP & SockJS for reliable WebSocket support
 
 ## Screenshots
 
-### 1. AiShorts Logo
-![AiShorts Logo](./aishorts-frontend/public/images/aishorts-logo)
-
----
-
-### 2. Chat Interface
-![AiShorts Chat Interface](./aishorts-frontend/public/images/aishorts-web.png)
-
----
-
-### 3. Homepage
+### Homepage
 ![AiShorts Homepage](./aishorts-frontend/public/images/website-img.png)
 
 ---
 
-### 4. Powered by Gemini
+### Chat Interface
+![AiShorts Chat Interface](./aishorts-frontend/public/images/aishorts-web.png)
+
+---
+
+### Powered by Gemini
 ![Google Gemini API Logo](./aishorts-frontend/public/images/google-logo.png)
