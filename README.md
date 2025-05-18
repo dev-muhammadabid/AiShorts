@@ -1,4 +1,4 @@
-# AiShorts
+# AiShorts🤖✨
 
 **Author:** Muhammad Abid  
 **Year:** 2024  
@@ -7,86 +7,127 @@
 
 **AiShorts**: The smart app delivering concise, precise answers in just 60 words! This innovative application leverages AI technology to provide short, accurate, and informative responses to user queries, ensuring quick and effective information retrieval.
 
----
+## 🚀 Features
 
-## Features
+- 🔄 Real-time bi-directional communication using **WebSocket (STOMP + SockJS)**
+- 🎨 Clean and responsive chat UI using **TailwindCSS** & **Material Tailwind**
+- 🔒 AI response history is saved using JPA & MySQL
+- ⚙️ REST fallback API to get answers from Gemini
+- 🧠 Simulates intelligent, ChatGPT-like answers
+- 📜 Custom animated chat bubbles for both user and AI
+- 🌐 Deployed over WebSocket endpoint `/ws-chat`
 
-- AI-powered concise answers limited to 60 words.
-- User-friendly interface built with ReactJS.
-- RESTful API integration for seamless communication between backend and frontend.
-- Scalable backend powered by Java and Spring Boot.
-- Robust build and dependency management using Maven.
-- Modern and interactive UI/UX.
 
----
+## 🛠️ Tech Stack
 
-## Tech Stack
-
-- **Backend**: Java, Spring Boot, Maven, REST API, Twilio
-- **Frontend**: ReactJS, HTML, CSS
-- **Other Tools**: Gemini API, Postman (for API testing)
-
----
-
-## Installation
-
-### Prerequisites:
-- Java 11 or higher
-- Maven 3.x
-- Node.js and npm
-
-### Steps:
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/dev-muhammadabid/aishorts.git
-   ```
-2. Navigate to the backend folder and build the project:
-   ```bash
-   cd backend
-   mvn clean install
-   ```
-3. Start the Spring Boot application:
-   ```bash
-   mvn spring-boot:run
-   ```
-4. Navigate to the frontend folder and install dependencies:
-   ```bash
-   cd ../frontend
-   npm install
-   ```
-5. Start the ReactJS application:
-   ```bash
-   npm start
-   ```
+| Layer       | Technology                  |
+|------------|-----------------------------|
+| Backend     | Java, Spring Boot, Spring WebSocket |
+| Frontend    | React.js, Tailwind CSS, Material Tailwind, Framer Motion |
+| Messaging   | STOMP, SockJS               |
+| AI Logic    | Gemini / OpenAI (via `ChatService`) |
+| DB          | MySQL, Spring Data JPA      |
 
 ---
 
-## Usage
+## 📦 Folder Structure
 
-1. Open your browser and navigate to `http://localhost:3000`.
-2. Enter your query in the input box.
-3. Get concise, precise answers in just 60 words!
+AiShorts/
+├── backend/
+│ ├── controllers/
+│ ├── services/
+│ ├── entities/
+│ ├── repositories/
+│ ├── config/
+│ └── Application.java
+├── frontend/
+│ ├── components/
+│ ├── Prompt.jsx
+│ ├── Response.jsx
+│ ├── ChatBubble.jsx
+│ └── index.js
+
+
+## ⚙️ Getting Started
+
+### Backend
+
+```bash
+cd backend
+./mvnw spring-boot:run
+
+* WebSocket endpoint: ws://localhost:8080/ws-chat
+
+* REST endpoint: POST /aishorts/prompt
+
+* Fetch history: GET /aishorts/history
+
+Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+
+📡 WebSocket Communication
+Send user prompt to:
+/app/sendMessage
+
+Listen to AI responses at:
+/topic/messages
+
+Sample Payload:
+
+Send:
+json: { "text": "What is AI?" }
+
+Receive:
+json: {
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          { "text": "AI stands for Artificial Intelligence..." }
+        ]
+      }
+    }
+  ]
+}
+
+🧪 Testing
+Make sure both frontend and backend are running
+
+Open browser at http://localhost:5173 (or your frontend port)
+
+Type a message and wait for real-time AI response
+
+📖 License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+🙌 Acknowledgements
+Google Gemini / OpenAI for LLM APIs
+Material Tailwind UI for sleek design
+STOMP & SockJS for reliable WebSocket support
+
+## Screenshots
+
+### 1. AiShorts Logo
+![AiShorts Logo](./aishorts-logo.png)
 
 ---
 
-## Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch (`feature/your-feature-name`).
-3. Commit your changes with proper messages.
-4. Push to your fork and create a pull request.
+### 2. Chat Interface
+![AiShorts Chat Interface](./aishorts-web.png)
+*The user types a question, and the AI generates a 60-word answer in real time.*
 
 ---
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### 3. Homepage
+![AiShorts Homepage](./website-img.png)
+*Minimal landing page of AiShorts with tagline and clean layout.*
 
 ---
 
-## Acknowledgments
-
-- Thanks to Google-Gemini for their API support.
-- Inspired by the vision to make information accessible and concise for everyone.
+### 4. Powered by Gemini
+![Google Gemini API Logo](./google-logo.png)
+*AiShorts uses Google's Gemini 1.5 Flash API for fast and accurate answers.*
