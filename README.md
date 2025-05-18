@@ -61,15 +61,18 @@ cd backend
 * REST endpoint: POST /aishorts/prompt
 
 * Fetch history: GET /aishorts/history
+```
 
-Frontend
+### FrontEnd
 
 ```bash
 cd frontend
 npm install
 npm run dev
+```
 
 📡 WebSocket Communication
+```
 Send user prompt to:
 /app/sendMessage
 
@@ -93,6 +96,7 @@ json: {
     }
   ]
 }
+```
 
 🧪 Testing
 Make sure both frontend and backend are running
