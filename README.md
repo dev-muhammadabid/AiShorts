@@ -72,7 +72,7 @@ npm run dev
 ```
 
 📡 WebSocket Communication
-```
+
 Send user prompt to:
 /app/sendMessage
 
@@ -80,7 +80,7 @@ Listen to AI responses at:
 /topic/messages
 
 Sample Payload:
-
+```
 Send:
 json: { "text": "What is AI?" }
 
@@ -98,17 +98,17 @@ json: {
 }
 ```
 
-🧪 Testing
+## 🧪 Testing
 Make sure both frontend and backend are running
 
 Open browser at http://localhost:5173 (or your frontend port)
 
 Type a message and wait for real-time AI response
 
-📖 License
+## 📖 License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-🙌 Acknowledgements
+## 🙌 Acknowledgements
 Google Gemini / OpenAI for LLM APIs
 Material Tailwind UI for sleek design
 STOMP & SockJS for reliable WebSocket support
@@ -116,22 +116,22 @@ STOMP & SockJS for reliable WebSocket support
 ## Screenshots
 
 ### 1. AiShorts Logo
-![AiShorts Logo](./aishorts-logo.png)
+![AiShorts Logo](./aishorts-frontend/public/images/aishorts-logo)
 
 ---
 
 ### 2. Chat Interface
-![AiShorts Chat Interface](./aishorts-web.png)
+![AiShorts Chat Interface](./aishorts-frontend/public/images/aishorts-web.png)
 *The user types a question, and the AI generates a 60-word answer in real time.*
 
 ---
 
 ### 3. Homepage
-![AiShorts Homepage](./website-img.png)
+![AiShorts Homepage](./aishorts-frontend/public/images/website-img.png)
 *Minimal landing page of AiShorts with tagline and clean layout.*
 
 ---
 
 ### 4. Powered by Gemini
-![Google Gemini API Logo](./google-logo.png)
+![Google Gemini API Logo](./aishorts-frontend/public/images/google-logo.png)
 *AiShorts uses Google's Gemini 1.5 Flash API for fast and accurate answers.*
